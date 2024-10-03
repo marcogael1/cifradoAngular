@@ -1,0 +1,142 @@
+<div class="w-full flex justify-center mb-6">
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2" routerLink="/twofish">
+    Twofish
+  </button>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2" routerLink="/ripemd">
+    RIPEMD
+  </button>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-2"
+    routerLink="/diffie-hellman">
+    Diffie-Hellman
+  </button>
+</div>
+
+<div class="bg-gray-100 flex justify-center p-5">
+  <div class="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl">
+    <div class="w-full lg:w-1/2 mb-6 lg:mb-0 lg:mr-6">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800">Encriptación Twofish</h2>
+      <form (ngSubmit)="encryptSensitiveData()">
+        <!-- Campos de entrada -->
+        <div class="mb-4">
+          <label for="nombre" class="block text-gray-700 text-sm font-bold mb-2">Nombre Completo</label>
+          <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Ingresa tu nombre completo" />
+        </div>
+
+        <div class="mb-4">
+          <label for="correo" class="block text-gray-700 text-sm font-bold mb-2">Correo Electrónico</label>
+          <input type="email" id="correo" [(ngModel)]="correo" name="correo"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Ingresa tu correo electrónico" />
+        </div>
+
+        <div class="mb-4">
+          <label for="direccion" class="block text-gray-700 text-sm font-bold mb-2">Dirección</label>
+          <input type="text" id="direccion" [(ngModel)]="direccion" name="direccion"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Ingresa tu dirección" />
+        </div>
+
+        <div class="mb-4">
+          <label for="identificacion" class="block text-gray-700 text-sm font-bold mb-2">Contraseña</label>
+          <input type="password" id="identificacion" [(ngModel)]="identificacion" name="identificacion"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Ingresa tu contraseña" />
+        </div>
+
+        <div class="mb-4">
+          <label for="telefono" class="block text-gray-700 text-sm font-bold mb-2">Teléfono</label>
+          <input type="tel" id="telefono" [(ngModel)]="telefono" name="telefono"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Ingresa tu número de teléfono" />
+        </div>
+
+        <div class="mb-4">
+          <label for="key" class="block text-gray-700 text-sm font-bold mb-2">Llave de Encriptación</label>
+          <input type="password" id="key" [(ngModel)]="key" name="key"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Escribe la llave de encriptación" />
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Encriptar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Datos cifrados y descifrados -->
+    <div class="w-full lg:w-1/2 bg-gray-50 p-6 rounded-lg shadow-lg">
+      <h3 class="text-lg font-bold text-gray-800 mb-4">Datos Cifrados con Twofish</h3>
+
+      <!-- Campos cifrados -->
+      <div class="border border-gray-300 rounded-lg p-4 bg-gray-100">
+        <div class="mb-2">
+          <strong>Nombre Encriptado:</strong>
+          <p class="break-words">{{ encryptedData['nombre'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Email Encriptado:</strong>
+          <p class="break-words">{{ encryptedData['correo'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Dirección Encriptada:</strong>
+          <p class="break-words">{{ encryptedData['direccion'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Teléfono Encriptado:</strong>
+          <p class="break-words">{{ encryptedData['telefono'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Contraseña Cifrada:</strong>
+          <p class="break-words">{{ encryptedData['identificacion'] || 'N/A' }}</p>
+        </div>
+      </div>
+
+      <!-- Clave de desencriptación -->
+      <div class="mb-4 mt-6">
+        <label for="decryptKey" class="block text-gray-700 text-sm font-bold mb-2">Llave para Descifrar</label>
+        <input type="password" id="decryptKey" [(ngModel)]="decryptKey" name="decryptKey"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Ingresa la llave para descifrar" />
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button type="button"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          (click)="decryptSensitiveData()">
+          Descifrar
+        </button>
+      </div>
+
+      <!-- Datos descifrados -->
+      <h3 class="text-lg font-bold text-gray-800 mt-6 mb-4">Datos Descifrados</h3>
+
+      <div class="border border-gray-300 rounded-lg p-4 bg-gray-100">
+        <div class="mb-2">
+          <strong>Nombre Descifrado:</strong>
+          <p class="break-words">{{ decryptedData['nombre'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Email Descifrado:</strong>
+          <p class="break-words">{{ decryptedData['correo'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Dirección Descifrada:</strong>
+          <p class="break-words">{{ decryptedData['direccion'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Teléfono Descifrado:</strong>
+          <p class="break-words">{{ decryptedData['telefono'] || 'N/A' }}</p>
+        </div>
+        <div class="mb-2">
+          <strong>Contraseña Descifrada:</strong>
+          <p class="break-words">{{ decryptedData['identificacion'] || 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

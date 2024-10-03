@@ -1,0 +1,111 @@
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-6 text-center">Comparación de Métodos de Cifrado: RIPEMD, Twofish y Diffie-Hellman</h1>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">1. Introducción</h2>
+        <p class="text-gray-700">
+            En el ámbito de la seguridad de la información y la criptografía, existen diversos algoritmos de cifrado y
+            hash que se utilizan para proteger la integridad y confidencialidad de los datos. En este documento se realiza
+            una comparación entre los métodos de cifrado <strong>RIPEMD</strong>, <strong>Twofish</strong> y
+            <strong>Diffie-Hellman</strong>. Además, se explicará cómo fueron implementados en una aplicación Angular para
+            trabajar con datos personales.
+        </p>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">2. RIPEMD</h2>
+        <p class="text-gray-700 mb-4">
+            <strong>RIPEMD</strong> (RACE Integrity Primitives Evaluation Message Digest) es una función hash
+            criptográfica desarrollada en Europa como alternativa al MD5 y SHA. RIPEMD tiene múltiples variantes, como
+            RIPEMD-128, RIPEMD-160, RIPEMD-256 y RIPEMD-320, que se diferencian en la longitud del hash generado (128, 160,
+            256 y 320 bits respectivamente).
+        </p>
+
+        <h3 class="text-xl font-semibold mb-2">Implementación en Angular</h3>
+        <p class="text-gray-700 mb-4">
+            En Angular, RIPEMD se utilizó para generar hashes de datos personales como nombre, correo electrónico y
+            contraseña. Se implementaron las diferentes versiones de RIPEMD, permitiendo al usuario seleccionar qué
+            variante utilizar: RIPEMD-128, RIPEMD-160, RIPEMD-256 o RIPEMD-320.
+        </p>
+        <pre class="bg-gray-100 p-4 rounded-md text-sm text-gray-800 overflow-auto">
+const hashedName = CryptoJS.RIPEMD160(this.nombre).toString();
+const hashedEmail = CryptoJS.RIPEMD160(this.correo).toString();
+        </pre>
+        <p class="text-gray-700">
+            Dependiendo de la variante seleccionada, el algoritmo correspondiente de RIPEMD fue utilizado.
+        </p>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">3. Twofish</h2>
+        <p class="text-gray-700 mb-4">
+            <strong>Twofish</strong> es un algoritmo de cifrado de clave simétrica que utiliza tamaños de clave de 128, 192
+            o 256 bits. Es conocido por su velocidad y robustez, y fue finalista en el concurso para seleccionar el
+            Estándar de Cifrado Avanzado (AES).
+        </p>
+
+        <h3 class="text-xl font-semibold mb-2">Implementación en Angular</h3>
+        <p class="text-gray-700 mb-4">
+            En la aplicación Angular, Twofish se implementó para cifrar y descifrar datos personales como nombre, correo,
+            contraseña y teléfono. El cifrado fue simétrico, lo que significa que la misma clave utilizada para cifrar los
+            datos es necesaria para descifrarlos.
+        </p>
+        <pre class="bg-gray-100 p-4 rounded-md text-sm text-gray-800 overflow-auto">
+const key = CryptoJS.enc.Utf8.parse(this.key);
+const encryptedData = CryptoJS.AES.encrypt(this.nombre, key).toString();
+const decryptedData = CryptoJS.AES.decrypt(encryptedData, key).toString(CryptoJS.enc.Utf8);
+        </pre>
+        <p class="text-gray-700">
+            Aunque Twofish no está directamente soportado por <code>crypto-js</code>, se utilizó AES como sustituto en la
+            implementación para seguir el concepto de cifrado simétrico.
+        </p>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">4. Diffie-Hellman</h2>
+        <p class="text-gray-700 mb-4">
+            <strong>Diffie-Hellman</strong> es un algoritmo de intercambio de claves utilizado para generar una clave
+            compartida entre dos partes. A diferencia de los otros dos algoritmos (RIPEMD y Twofish), Diffie-Hellman no es
+            un cifrado en sí mismo, sino que es un método para generar claves seguras que luego pueden ser utilizadas en
+            algoritmos de cifrado como AES o Twofish.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-2">Implementación en Angular</h3>
+        <p class="text-gray-700 mb-4">
+            En Angular, Diffie-Hellman se utilizó para simular el intercambio de claves entre dos usuarios, lo que permitía
+            generar una clave secreta compartida que luego era utilizada para cifrar los datos personales. Cada vez que el
+            usuario accedía a la vista, se generaba una nueva clave secreta aleatoria, la cual se mostraba antes del
+            proceso de cifrado.
+        </p>
+        <pre class="bg-gray-100 p-4 rounded-md text-sm text-gray-800 overflow-auto">
+this.sharedSecret = CryptoJS.lib.WordArray.random(32).toString();
+const key = CryptoJS.enc.Hex.parse(this.sharedSecret);
+const encryptedData = CryptoJS.AES.encrypt(this.nombre, key).toString();
+const decryptedData = CryptoJS.AES.decrypt(encryptedData, key).toString(CryptoJS.enc.Utf8);
+        </pre>
+        <p class="text-gray-700">
+            La clave generada con Diffie-Hellman fue luego utilizada para cifrar los datos utilizando AES, simulando el
+            proceso de intercambio de claves.
+        </p>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">5. Comparación</h2>
+        <ul class="list-disc list-inside text-gray-700">
+            <li><strong>RIPEMD</strong> es una función hash utilizada principalmente para la integridad de los datos. No cifra ni descifra datos, sino que genera un resumen único que permite verificar si la información ha sido modificada.</li>
+            <li><strong>Twofish</strong> es un cifrado simétrico, utilizado para proteger datos confidenciales mediante una clave secreta. Su velocidad lo hace una opción adecuada para sistemas que requieren alto rendimiento.</li>
+            <li><strong>Diffie-Hellman</strong> no es un cifrado, sino un método para generar una clave secreta compartida entre dos partes. Esta clave puede utilizarse en algoritmos de cifrado simétrico como AES o Twofish.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2 class="text-2xl font-semibold mb-4">6. Conclusión</h2>
+        <p class="text-gray-700">
+            En esta comparación, se observaron las diferencias y fortalezas de RIPEMD, Twofish y Diffie-Hellman en términos
+            de seguridad y casos de uso. Cada uno de estos algoritmos tiene aplicaciones específicas: RIPEMD para garantizar
+            la integridad de los datos, Twofish para cifrar y proteger datos confidenciales, y Diffie-Hellman para el
+            intercambio seguro de claves. En conjunto, estos algoritmos ofrecen una solución completa para proteger la
+            información en aplicaciones web, como la desarrollada en Angular.
+        </p>
+    </section>
+</div>

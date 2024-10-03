@@ -1,0 +1,38 @@
+<div class="bg-gray-100 flex justify-center p-5">
+  <div class="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <div class="w-full">
+      <h1 class="text-center text-2xl font-bold mb-4">Cifrado Escítala</h1>
+      <form>
+        <div class="mb-4">
+          <label for="mensaje" class="block text-gray-700 font-bold mb-2">Mensaje a cifrar/descifrar:</label>
+          <textarea id="mensaje" [(ngModel)]="mensaje" name="mensaje" class="w-full p-3 border rounded"
+            placeholder="tu mensaje" rows="4"></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="clave" class="block text-gray-700 font-bold mb-2">Clave (Número de filas):</label>
+          <input type="number" id="clave" [(ngModel)]="clave" name="clave" min="2" class="w-full p-3 border rounded" />
+        </div>
+
+        <div *ngIf="error" class="text-red-500 mb-4">El mensaje solo puede contener letras del alfabeto español.</div>
+
+        <div class="flex space-x-2">
+          <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded w-full"
+            (click)="cifrarMensaje()">Codificar</button>
+          <button type="button" class="bg-green-500 text-white px-4 py-2 rounded w-full"
+            (click)="descifrarMensaje()">Descodificar</button>
+        </div>
+
+        <div class="mt-4">
+          <label for="resultado" class="block text-gray-700 font-bold mb-2">Resultado:</label>
+          <div class="relative">
+            <textarea id="resultado" [(ngModel)]="resultado" name="resultado"
+              class="w-full p-3 border rounded bg-gray-200" rows="4" readonly></textarea>
+            <button type="button" class="absolute top-0 right-0 mt-2 mr-2 bg-gray-500 text-white px-3 py-1 rounded"
+              (click)="copiarResultado()">Copiar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
